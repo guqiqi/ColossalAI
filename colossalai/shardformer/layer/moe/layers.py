@@ -13,6 +13,7 @@ from colossalai.moe.utils import create_ep_hierarchical_group, get_noise_generat
 from colossalai.shardformer.layer.moe import MLPExperts
 from colossalai.tensor.moe_tensor.api import get_dp_group, get_ep_group, get_ep_group_ranks, get_ep_size
 
+from colossalai.shardformer.layer.moe.routers import MoeRouter, get_router_cls
 
 class SparseMLP(nn.Module):
     """A class for users to create MoE modules in their models.

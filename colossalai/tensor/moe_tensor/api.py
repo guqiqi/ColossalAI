@@ -32,6 +32,17 @@ def set_moe_tensor_ep_group(tensor: torch.Tensor, ep_group: ProcessGroup) -> Non
     tensor.__setattr__("ep_group", ep_group)
 
 
+def set_moe_tensor_info(tensor: torch.Tensor, moe_info: MoeParallelInfo) -> None:
+    """
+    Set moe info for the given tensor.
+
+    Args:
+        tensor (torch.Tensor): The tensor to be set.
+        moe_info (dict): The moe info to be set.
+
+    """
+    tensor.__setattr__("moe_info", moe_info)
+
 def get_moe_info(ep_size: int, dp_size: int, pp_size: int, ep_inside: bool) -> MoeParallelInfo:
     """
     Get moe info for the given tensor.

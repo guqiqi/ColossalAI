@@ -9,7 +9,7 @@ from colossalai.moe._operation import MoeInGradScaler, MoeOutGradScaler
 from colossalai.moe.manager import MOE_MANAGER
 from colossalai.moe.utils import get_activation
 from colossalai.shardformer.layer.utils import Randomizer
-from colossalai.tensor.moe_tensor.api import get_ep_rank, get_ep_size
+from colossalai.tensor.moe_tensor.api import get_ep_rank, get_ep_size, set_moe_tensor_info
 
 if HAS_TRITON:
     from colossalai.kernel.triton.llama_act_combine_kernel import LlamaActCombine
@@ -56,7 +56,8 @@ class MLPExperts(nn.Module):
                 num_experts, use_tp=True if expert_parallel == "TP" else False
             )
             # get settings for different parallel
-            self.ep_size = get_ep_size(self)
+            self.ep_size = self.moe_info.ep_size
+            self.ep_group = self.moe_info.ep_group
             if expert_parallel == "TP":
                 intermediate_size = intermediate_size // self.ep_size
                 num_experts = self.num_total_experts
